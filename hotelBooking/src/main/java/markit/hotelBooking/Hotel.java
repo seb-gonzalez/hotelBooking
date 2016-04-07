@@ -60,8 +60,8 @@ public class Hotel implements BookingManager {
 			}
 		}
 
-		//System.out.println("List of rooms in the Hotel: ");
-		//System.out.println(numberList.toString());
+		// System.out.println("List of rooms in the Hotel: ");
+		// System.out.println(numberList.toString());
 
 	}
 
@@ -89,10 +89,18 @@ public class Hotel implements BookingManager {
 	// This method must be threadsafe; multiple users may be consulting at the
 	// same time
 	public synchronized void addBooking(String guest, Integer room, Date date) {
-		// It is assumed by the exercise that is not needed to check
-		// whether the room exists or not.
 
-		this.rooms.get(room).setBooking(date, guest);
+		/*
+		 * We make sure first that the room exists: If the room exists, then we
+		 * book the room, if not we do not do nothing at all.
+		 * 
+		 * I could throw an exception, but in the exercise says about handling
+		 * errors in a sensible fashion. And throwing errors is not.
+		 */
+		if (this.rooms.containsKey(room)) {
+			this.rooms.get(room).setBooking(date, guest);
+		}
+
 	}
 
 	// This method must be threadsafe; multiple users may be consulting at the
